@@ -4,12 +4,14 @@ import NewBookingForm from "../components/NewBookingForm";
 
 export default function Booking() {
     async function addBookedHandler(enteredBookData) {
-        const response = await fetch('http://localhost:3000/api/book-form', {
+        //const dataConfig = JSON.stringify(enteredBookData);
+        //console.log(dataConfig);
+        const response = await fetch('/api/booking', {
             method: 'POST',
-            body: JSON.stringify(enteredBookData),
             headers: {
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify(enteredBookData),
         });
 
         const data = await response.json();
