@@ -1,6 +1,4 @@
-import { MongoClient } from 'mongodb';
-
-export async function dayBookedInfo(enteredMonth, enteredDate) {
+export async function dayBookedInfo(dupConfig) {
     const defaultTimeTable = {
         9: "empty",
         10: "empty",
@@ -23,23 +21,16 @@ export async function dayBookedInfo(enteredMonth, enteredDate) {
         27: "empty"
     }
 
-    const client = await MongoClient.connect('mongodb+srv://kbumj2003:bj3163113@cluster-phoebusplanner.rjdwy4s.mongodb.net/');
-
-    const db = client.db('test');
-
-    const bookedCollection = db.collection('booked');
-
-    client.close();
-
-    const bookedInfo = await bookedCollection.find({month: enteredMonth, date: enteredDate}).toArray();
-
     var timeTable = defaultTimeTable;
 
-    bookedInfo.forEach(document => {
-        for(var i = document.startTime; i < document.startTime + useTime;i++){
-            timeTable.i = document.type;
+    dupConfig.bookedInfo.forEach(document => {
+        var startTime = parseInt(document.startTime);
+        var useTime = parseInt(document.useTime);
+        for(var i = startTime; i < startTime + useTime;i++){
+            timeTable[i] = document.type;
         }
     });
 
+    //console.log(timeTable);
     return timeTable;
 }

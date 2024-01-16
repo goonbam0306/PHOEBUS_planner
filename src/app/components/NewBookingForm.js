@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import Swal from 'sweetalert2';
+import { dayBookedInfo } from '../utils/dayBookedInfo';
 
 function NewBookingForm(props) {
     const submitHandler = async (event) => {
@@ -11,6 +12,21 @@ function NewBookingForm(props) {
         const enteredStartTime = event.target['startTime'].value;
         const enteredUseTime = event.target['useTime'].value;
         const enteredType = event.target['type'].value;
+
+        const getData = async () => {
+
+            const response = await fetch('/api/booking?month=' + enteredMonth + '&date=' + enteredDate, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application.json',
+                }
+            });
+
+            const data = await response.json();
+            //console.log(data);
+
+            return data;
+        }
 
         const enteredBookData = {
             month: enteredMonth,
@@ -35,6 +51,29 @@ function NewBookingForm(props) {
                 Swal.fire({
                     icon:"error",
                     text: "날짜 입력이 잘못되었습니다! 다시 확인해주세요."
+                })
+
+                return;
+            }
+        }
+
+        const dupConfig = await getData();
+
+        console.log(dupConfig);
+
+        const dayTimeTable = await dayBookedInfo(dupConfig);
+
+        var intStartTime = parseInt(enteredStartTime);
+        var intUseTime = parseInt(enteredUseTime);
+
+        console.log(intStartTime, intUseTime);
+        console.log(dayTimeTable);
+
+        for(var i = intStartTime; i < intStartTime + intUseTime; i++) {
+            if(dayTimeTable[i] != "empty") {
+                Swal.fire({
+                    icon:"error",
+                    text: "해당 시간에 이미 예약이 잡혀있습니다! 다시 확인해주세요."
                 })
 
                 return;
