@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import TodayBooked from './components/todayBooked';
 
 export default function Home() {
   return (
@@ -7,7 +8,7 @@ export default function Home() {
       <div alt="main page">
         <div alt="header [추후에 이미지와 텍스트 동일 선상에 두는 css 필요]">
           <div>
-            <Image src="/phoebus_logo.png" width={100} height={100}/>
+            <Image src="/phoebus_logo.png" width={100} height={100} alt="피버스 로고" />
           </div>
           <div>
             Phoebus<br />
@@ -31,7 +32,7 @@ export default function Home() {
             오늘의 예약
           </div>
           <div>
-            {/*여기에 연습실 예약 현황 출력하기*/}
+            {/*<TodayBooked />*/}
           </div>
         </div>
       </div>

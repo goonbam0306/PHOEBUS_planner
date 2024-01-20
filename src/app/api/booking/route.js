@@ -5,6 +5,7 @@ export async function GET(request) {
 
     const client = await MongoClient.connect('mongodb+srv://kbumj2003:bj3163113@cluster-phoebusplanner.rjdwy4s.mongodb.net/');
 
+    const year = request.nextUrl.searchParams.get('year');
     const month = request.nextUrl.searchParams.get('month');
     const date = request.nextUrl.searchParams.get('date');
 
@@ -12,7 +13,7 @@ export async function GET(request) {
 
     const bookedCollection = db.collection('booked');
 
-    const bookedInfo = await bookedCollection.find({month: month, date: date}).toArray();
+    const bookedInfo = await bookedCollection.find({year: year, month: month, date: date}).toArray();
 
     return NextResponse.json({bookedInfo});
 }

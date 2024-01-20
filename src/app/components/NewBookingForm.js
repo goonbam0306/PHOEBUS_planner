@@ -1,21 +1,44 @@
 "use client";
 import React from 'react';
 import Swal from 'sweetalert2';
+import dayjs from 'dayjs';
 import { dayBookedInfo } from '../utils/dayBookedInfo';
+import { currentYear } from '../utils/currentYear';
+import { bookedComplete } from '../utils/bookedComplete';
 
 function NewBookingForm(props) {
     const submitHandler = async (event) => {
         event.preventDefault();
 
+        const enteredYear = event.target['year'].value;
         const enteredMonth = event.target['month'].value;
         const enteredDate = event.target['date'].value;
         const enteredStartTime = event.target['startTime'].value;
         const enteredUseTime = event.target['useTime'].value;
         const enteredType = event.target['type'].value;
+        const enteredInfo = event.target['info'].value;
+
+        if(enteredDate.trim() === '') {
+            Swal.fire({
+                icon: "error",
+                text: "예약일을 입력해주세요!",
+            })
+
+            return;
+        }
+
+        if(enteredInfo.trim() === '') {
+            Swal.fire({
+                icon: "error",
+                text: "예약자 이름이나 곡 제목을 입력해주세요!",
+            })
+
+            return;
+        }
 
         const getData = async () => {
 
-            const response = await fetch('/api/booking?month=' + enteredMonth + '&date=' + enteredDate, {
+            const response = await fetch('/api/booking?month=' + enteredMonth + '&date=' + enteredDate + '&year=' + enteredYear, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application.json',
@@ -29,11 +52,13 @@ function NewBookingForm(props) {
         }
 
         const enteredBookData = {
+            year: enteredYear,
             month: enteredMonth,
             date: enteredDate,
             startTime: enteredStartTime,
             useTime: enteredUseTime,
-            type: enteredType
+            type: enteredType,
+            info: enteredInfo
         };
 
         if(enteredMonth == 2 || enteredMonth == 4 || enteredMonth == 6 || enteredMonth == 9 || enteredMonth == 11) {
@@ -57,20 +82,35 @@ function NewBookingForm(props) {
             }
         }
 
-        const dupConfig = await getData();
+        const today = dayjs();
+        const intEnteredYear = parseInt(enteredYear);
+        const intEnteredMonth = parseInt(enteredMonth);
+        const intEnteredDate = parseInt(enteredDate);
 
-        console.log(dupConfig);
+        if(intEnteredYear <= today.year()) {
+            if(intEnteredMonth <= today.month() + 1) {
+                if(intEnteredDate < today.date()){
+                    Swal.fire({
+                        icon: "error",
+                        text: "오늘보다 이른 날짜를 입력하셨습니다. 다시 확인해주세요."
+                    })
+
+                    return;
+                }
+            }
+        }
+
+        const dupConfig = await getData();
 
         const dayTimeTable = await dayBookedInfo(dupConfig);
 
         var intStartTime = parseInt(enteredStartTime);
         var intUseTime = parseInt(enteredUseTime);
 
-        console.log(intStartTime, intUseTime);
         console.log(dayTimeTable);
 
         for(var i = intStartTime; i < intStartTime + intUseTime; i++) {
-            if(dayTimeTable[i] != "empty") {
+            if(dayTimeTable[i][0] != "empty") {
                 Swal.fire({
                     icon:"error",
                     text: "해당 시간에 이미 예약이 잡혀있습니다! 다시 확인해주세요."
@@ -80,13 +120,21 @@ function NewBookingForm(props) {
             }
         }
 
-        {/* 현재 날짜와 비교하는 함수도 만들어야 하나? 마지막으로 확인해주는 함수는?*/}
-
         props.onAddBooking(enteredBookData);
+
+        bookedComplete();
     };
 
     return (
         <form onSubmit={submitHandler}>
+            <label>연도
+                <input 
+                    type="text" 
+                    id='year' 
+                    defaultValue={currentYear()}
+                    onChange={(e) => handleChange(e)}
+                    />
+            </label>
             <label>몇월?
                 <select id='month'>
                     <option value="1">1월</option>
@@ -105,7 +153,7 @@ function NewBookingForm(props) {
             </label>
             <label>예약일을 입력해주세요.
                 <input type="text" id='date' />
-                </label>
+            </label>
             <label>시작 시간을 선택해주세요.
             <select id='startTime'>
                 <option value="9">9:00</option>
@@ -137,10 +185,14 @@ function NewBookingForm(props) {
             <select id='type'>
                 <option value="per">개인 연습</option>
                 <option value="team">팀곡 연습</option>
-                <option value="project">프로젝트</option>
+                <option value="pro">프로젝트</option>
+                <option value="les">레슨</option>
             </select>
             </label>
-            <button type="submit">예약하기!</button>
+            <label>예약자 이름이나 곡 제목을 입력해주세요
+                <input type="text" id="info" />
+            </label>
+                <button type="submit">예약하기!</button>
         </form>
     )
 }

@@ -1,24 +1,24 @@
 export async function dayBookedInfo(dupConfig) {
     const defaultTimeTable = {
-        9: "empty",
-        10: "empty",
-        11: "empty",
-        12: "empty",
-        13: "empty",
-        14: "empty",
-        15: "empty",
-        16: "empty",
-        17: "empty",
-        18: "empty",
-        19: "empty",
-        20: "empty",
-        21: "empty",
-        22: "empty",
-        23: "empty",
-        24: "empty",
-        25: "empty",
-        26: "empty",
-        27: "empty"
+        9: ["empty", "info"],
+        10: ["empty", "info"],
+        11: ["empty", "info"],
+        12: ["empty", "info"],
+        13: ["empty", "info"],
+        14: ["empty", "info"],
+        15: ["empty", "info"],
+        16: ["empty", "info"],
+        17: ["empty", "info"],
+        18: ["empty", "info"],
+        19: ["empty", "info"],
+        20: ["empty", "info"],
+        21: ["empty", "info"],
+        22: ["empty", "info"],
+        23: ["empty", "info"],
+        24: ["empty", "info"],
+        25: ["empty", "info"],
+        26: ["empty", "info"],
+        27: ["empty", "info"]
     }
 
     var timeTable = defaultTimeTable;
@@ -26,8 +26,9 @@ export async function dayBookedInfo(dupConfig) {
     dupConfig.bookedInfo.forEach(document => {
         var startTime = parseInt(document.startTime);
         var useTime = parseInt(document.useTime);
+        timeTable[startTime][1] = document.info;
         for(var i = startTime; i < startTime + useTime;i++){
-            timeTable[i] = document.type;
+            timeTable[i][0] = document.type;
         }
     });
 
