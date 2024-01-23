@@ -2,30 +2,43 @@
 import React from 'react';
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
+import DatePicker from 'react-datepicker';
+import { useState } from 'react';
 import { dayBookedInfo } from '../utils/dayBookedInfo';
-import { currentYear } from '../utils/currentYear';
 import { bookedComplete } from '../utils/bookedComplete';
+import { Switch, useCheckboxState } from 'pretty-checkbox-react';
+
+import '@djthoms/pretty-checkbox';
 
 function NewBookingForm(props) {
+    //예약일 받기
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [year, setYear] = useState(null);
+    const [month, setMonth] = useState(null);
+    const [day, setDay] = useState(null);
+    const [dayOfWeek, setDayOfWeek] = useState(null);
+
+    const weeklyState = useCheckboxState();
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+        setYear(date.getFullYear());
+        setMonth(date.getMonth() + 1); 
+        setDay(date.getDate());
+        setDayOfWeek(date.getDay());
+    }
+
     const submitHandler = async (event) => {
         event.preventDefault();
 
-        const enteredYear = event.target['year'].value;
-        const enteredMonth = event.target['month'].value;
-        const enteredDate = event.target['date'].value;
+        const enteredYear = String(year);
+        const enteredMonth = String(month);
+        const enteredDate = String(day);
+        const enteredDayOfWeek = String(dayOfWeek);
         const enteredStartTime = event.target['startTime'].value;
         const enteredUseTime = event.target['useTime'].value;
         const enteredType = event.target['type'].value;
         const enteredInfo = event.target['info'].value;
-
-        if(enteredDate.trim() === '') {
-            Swal.fire({
-                icon: "error",
-                text: "예약일을 입력해주세요!",
-            })
-
-            return;
-        }
 
         if(enteredInfo.trim() === '') {
             Swal.fire({
@@ -36,8 +49,7 @@ function NewBookingForm(props) {
             return;
         }
 
-        const getData = async () => {
-
+        const getDailyData = async () => {
             const response = await fetch('/api/booking?month=' + enteredMonth + '&date=' + enteredDate + '&year=' + enteredYear, {
                 method: 'GET',
                 headers: {
@@ -51,35 +63,55 @@ function NewBookingForm(props) {
             return data;
         }
 
-        const enteredBookData = {
-            year: enteredYear,
-            month: enteredMonth,
-            date: enteredDate,
-            startTime: enteredStartTime,
-            useTime: enteredUseTime,
-            type: enteredType,
-            info: enteredInfo
-        };
+        const getWeeklyData = async () => {
+            const response = await fetch('/api/weekly?week=' + enteredDayOfWeek, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application.json',
+                }
+            });
 
-        if(enteredMonth == 2 || enteredMonth == 4 || enteredMonth == 6 || enteredMonth == 9 || enteredMonth == 11) {
-            if(enteredDate > 30 || enteredDate < 1) {
-                Swal.fire({
-                    icon:"error",
-                    text: "날짜 입력이 잘못되었습니다! 다시 확인해주세요."
-                })
+            const data = await response.json();
 
-                return;
-            }
+            return data;
+        }
+
+        let enteredBookData;
+
+        if(weeklyState.state) {
+            enteredBookData = {
+                year: enteredYear,
+                month: enteredMonth,
+                date: enteredDate,
+                week: enteredDayOfWeek,
+                startTime: enteredStartTime,
+                useTime: enteredUseTime,
+                type: enteredType,
+                info: enteredInfo,
+                weekly: 'true'
+            };
         }
         else {
-            if(enteredDate > 31 || enteredDate < 1) {
-                Swal.fire({
-                    icon:"error",
-                    text: "날짜 입력이 잘못되었습니다! 다시 확인해주세요."
-                })
+            enteredBookData = {
+                year: enteredYear,
+                month: enteredMonth,
+                date: enteredDate,
+                week: enteredDayOfWeek,
+                startTime: enteredStartTime,
+                useTime: enteredUseTime,
+                type: enteredType,
+                info: enteredInfo,
+                weekly: 'false'
+            };
+        }
 
-                return;
-            }
+        if(enteredYear === 'null') {
+            Swal.fire({
+                icon: "error",
+                text: "날짜를 입력해주세요."
+            })
+
+            return;
         }
 
         const today = dayjs();
@@ -100,9 +132,13 @@ function NewBookingForm(props) {
             }
         }
 
-        const dupConfig = await getData();
+        const dayDupConfig = await getDailyData();
 
-        const dayTimeTable = await dayBookedInfo(dupConfig);
+        const weekDupConfig = await getWeeklyData();
+
+        const dayTimeTable = await dayBookedInfo(dayDupConfig);
+
+        const weekTimeTable = await dayBookedInfo(weekDupConfig);
 
         var intStartTime = parseInt(enteredStartTime);
         var intUseTime = parseInt(enteredUseTime);
@@ -110,7 +146,7 @@ function NewBookingForm(props) {
         console.log(dayTimeTable);
 
         for(var i = intStartTime; i < intStartTime + intUseTime; i++) {
-            if(dayTimeTable[i][0] != "empty") {
+            if(dayTimeTable[i][0] != "empty" || weekTimeTable[i][0] != "empty") {
                 Swal.fire({
                     icon:"error",
                     text: "해당 시간에 이미 예약이 잡혀있습니다! 다시 확인해주세요."
@@ -127,33 +163,16 @@ function NewBookingForm(props) {
 
     return (
         <form onSubmit={submitHandler}>
-            <label>연도
-                <input 
-                    type="text" 
-                    id='year' 
-                    defaultValue={currentYear()}
-                    onChange={(e) => handleChange(e)}
-                    />
-            </label>
-            <label>몇월?
-                <select id='month'>
-                    <option value="1">1월</option>
-                    <option value="2">2월</option>
-                    <option value="3">3월</option>
-                    <option value="4">4월</option>
-                    <option value="5">5월</option>
-                    <option value="6">6월</option>
-                    <option value="7">7월</option>
-                    <option value="8">8월</option>
-                    <option value="9">9월</option>
-                    <option value="10">10월</option>
-                    <option value="11">11월</option>
-                    <option value="12">12월</option>
-                </select>
-            </label>
-            <label>예약일을 입력해주세요.
-                <input type="text" id='date' />
-            </label>
+            <DatePicker
+                selected={selectedDate}
+                onChange={handleDateChange}
+                dateFormat="yyyy/MM/dd"
+                placeholderText='예약 날짜를 선택하세요'
+            />
+            <Switch {...weeklyState}>매주 예약하기</Switch>
+            <div>
+                사용하지 않는 예약은 연습부장에게 삭제를 요청해주세요!<br />
+            </div>
             <label>시작 시간을 선택해주세요.
             <select id='startTime'>
                 <option value="9">9:00</option>

@@ -1,3 +1,4 @@
+"use client";
 import Image from 'next/image'
 import Link from 'next/link'
 import TodayBooked from './components/todayBooked';
@@ -32,7 +33,7 @@ export default function Home() {
             오늘의 예약
           </div>
           <div>
-            {/*<TodayBooked />*/}
+            <TodayBooked />
           </div>
         </div>
       </div>

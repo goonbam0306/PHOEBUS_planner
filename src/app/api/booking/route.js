@@ -15,6 +15,8 @@ export async function GET(request) {
 
     const bookedInfo = await bookedCollection.find({year: year, month: month, date: date}).toArray();
 
+    client.close();
+
     return NextResponse.json({bookedInfo});
 }
 
