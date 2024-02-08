@@ -3,6 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import TodayBooked from './components/todayBooked';
 
+import global from './globals.css';
+
 export default function Home() {
   return (
     <div>

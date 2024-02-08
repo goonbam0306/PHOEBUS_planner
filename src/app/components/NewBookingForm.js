@@ -122,12 +122,14 @@ function NewBookingForm(props) {
         if(intEnteredYear <= today.year()) {
             if(intEnteredMonth <= today.month() + 1) {
                 if(intEnteredDate < today.date()){
-                    Swal.fire({
-                        icon: "error",
-                        text: "오늘보다 이른 날짜를 입력하셨습니다. 다시 확인해주세요."
-                    })
+                    if(!weeklyState.state){
+                        Swal.fire({
+                            icon: "error",
+                            text: "오늘보다 이른 날짜를 입력하셨습니다. 다시 확인해주세요."
+                        })
 
-                    return;
+                        return;
+                    }
                 }
             }
         }
