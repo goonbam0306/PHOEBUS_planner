@@ -1,7 +1,9 @@
+import DateBooked from "../components/DateBooked";
+
 export default function BookedConfirm() {
     return (
         <div>
-            This is booked-confirm page
+            <DateBooked />
         </div>
     )
 }
