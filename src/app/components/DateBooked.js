@@ -32,7 +32,7 @@ function DateBooked() {
 
     useEffect(() => {
         const getTimeTable = async () => {
-            const response = await fetch('http://localhost:3000/api/bookConfirm?year=' + selectedDate.getFullYear() + '&month=' + selectedDate.getMonth() + '&date=' + selectedDate.getDate() + '&dow=' + selectedDate.getDay(), {
+            const response = await fetch('https://phoebus-planner-bjyrljhpt-goonbams-projects.vercel.app/api/bookConfirm?year=' + selectedDate.getFullYear() + '&month=' + selectedDate.getMonth() + '&date=' + selectedDate.getDate() + '&dow=' + selectedDate.getDay(), {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application.json',
