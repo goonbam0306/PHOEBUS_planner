@@ -6,6 +6,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 function DateBooked() {
+    DateBooked.displayName = 'DateBooked';
+    
     const [timeTable, setTimeTable] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -45,8 +47,6 @@ function DateBooked() {
 
         getTimeTable();
     }, [selectedDate]);
-
-    DateBooked.displayName = 'DateBooked';
 
     return (
         <div>
