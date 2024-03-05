@@ -6,8 +6,6 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 function DateBooked() {
-    DateBooked.displayName = 'DateBooked';
-    
     const [timeTable, setTimeTable] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -30,6 +28,7 @@ function DateBooked() {
             {value}
         </button>
     ));
+    CalanderCustom.displayName = 'CalanderCustom';
 
     useEffect(() => {
         const getTimeTable = async () => {
