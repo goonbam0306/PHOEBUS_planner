@@ -46,6 +46,8 @@ function DateBooked() {
         getTimeTable();
     }, [selectedDate]);
 
+    DateBooked.displayName = 'DateBooked';
+
     return (
         <div>
             <div>
