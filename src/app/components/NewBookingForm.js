@@ -165,55 +165,63 @@ function NewBookingForm(props) {
 
     return (
         <form onSubmit={submitHandler}>
-            <DatePicker
-                selected={selectedDate}
-                onChange={handleDateChange}
-                dateFormat="yyyy/MM/dd"
-                placeholderText='예약 날짜를 선택하세요'
-            />
-            <Switch {...weeklyState}>매주 예약하기</Switch>
             <div>
-                사용하지 않는 예약은 연습부장에게 삭제를 요청해주세요!<br />
+                <DatePicker
+                    selected={selectedDate}
+                    onChange={handleDateChange}
+                    dateFormat="yyyy/MM/dd"
+                    placeholderText='예약 날짜를 선택하세요'
+                />
+                <br />
+                <Switch {...weeklyState}></Switch>매주 예약하기
             </div>
-            <label>시작 시간을 선택해주세요.
-            <select id='startTime'>
-                <option value="9">9:00</option>
-                <option value="10">10:00</option>
-                <option value="11">11:00</option>
-                <option value="12">12:00</option>
-                <option value="13">13:00</option>
-                <option value="14">14:00</option>
-                <option value="15">15:00</option>
-                <option value="16">16:00</option>
-                <option value="17">17:00</option>
-                <option value="18">18:00</option>
-                <option value="19">19:00</option>
-                <option value="20">20:00</option>
-                <option value="21">21:00</option>
-                <option value="22">22:00</option>
-                <option value="23">23:00</option>
-            </select>
-            </label>
-            <label>사용 시간을 선택해주세요
-            <select id='useTime'>
-                <option value="1">1시간</option>
-                <option value="2">2시간</option>
-                <option value="3">3시간</option>
-                <option value="4">4시간</option>
-            </select>
-            </label>
-            <label>사용 유형을 선택해주세요
-            <select id='type'>
-                <option value="per">개인 연습</option>
-                <option value="team">팀곡 연습</option>
-                <option value="pro">프로젝트</option>
-                <option value="les">레슨</option>
-            </select>
-            </label>
+            <div>
+                <label>시작 시간을 선택해주세요.<br />
+                <select id='startTime'>
+                    <option value="9">9:00</option>
+                    <option value="10">10:00</option>
+                    <option value="11">11:00</option>
+                    <option value="12">12:00</option>
+                    <option value="13">13:00</option>
+                    <option value="14">14:00</option>
+                    <option value="15">15:00</option>
+                    <option value="16">16:00</option>
+                    <option value="17">17:00</option>
+                    <option value="18">18:00</option>
+                    <option value="19">19:00</option>
+                    <option value="20">20:00</option>
+                    <option value="21">21:00</option>
+                    <option value="22">22:00</option>
+                    <option value="23">23:00</option>
+                </select>
+                </label>
+            </div>
+            <div>
+                <label>사용 시간을 선택해주세요<br />
+                <select id='useTime'>
+                    <option value="1">1시간</option>
+                    <option value="2">2시간</option>
+                    <option value="3">3시간</option>
+                    <option value="4">4시간</option>
+                </select>
+                </label>
+            </div>
+            <div>
+                <label>사용 유형을 선택해주세요<br />
+                <select id='type'>
+                    <option value="per">개인 연습</option>
+                    <option value="team">팀곡 연습</option>
+                    <option value="pro">프로젝트</option>
+                    <option value="les">레슨</option>
+                </select>
+                </label>
+            </div>
             <label>예약자 이름이나 곡 제목을 입력해주세요
                 <input type="text" id="info" />
             </label>
+            <div>
                 <button type="submit">예약하기!</button>
+            </div>
         </form>
     )
 }

@@ -17,5 +17,24 @@ export default function Booking() {
         const data = await response.json();
         console.log(data);
     }
-    return <NewBookingForm onAddBooking={addBookedHandler} />;
+    return (
+        <div>
+            <div style={{display: 'flex'}}>
+                <div style={{
+                    fontSize: '32px'
+                }}>
+                    P
+                </div>
+                <div style={{
+                    fontSize: '14px',
+                    paddingTop: '4px',
+                    paddingLeft: '2px'
+                }}>
+                    hoebus<br />
+                    lanner
+                    </div>
+            </div>
+            <NewBookingForm onAddBooking={addBookedHandler} />
+        </div>
+    );
 }

@@ -44,16 +44,16 @@ export async function GET(request) {
 
             switch (useType) {
                 case "per":
-                    useType = 'red';
+                    useType = '#FAD2E1';
                     break;
                 case "team":
-                    useType = 'blue';
+                    useType = '#BEE1E6';
                     break;
                 case "pro":
-                    useType = 'green';
+                    useType = '#FFF1E6';
                     break;
                 case "les":
-                    useType = 'magenta';
+                    useType = '#CDDAFD';
                     break;
             }
 
@@ -78,16 +78,16 @@ export async function GET(request) {
 
         switch (useType) {
             case "per":
-                useType = 'red';
+                useType = '#FAD2E1';
                 break;
             case "team":
-                useType = 'blue';
+                useType = '#BEE1E6';
                 break;
             case "pro":
-                useType = 'green';
+                useType = '#FFF1E6';
                 break;
             case "les":
-                useType = 'magenta';
+                useType = '#CDDAFD';
                 break;
         }
 

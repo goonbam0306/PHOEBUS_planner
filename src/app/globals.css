@@ -1,31 +1,61 @@
-.weekBox {
-    padding-left: 100px;
+@font-face {
+    font-family: 'yg-jalnan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
+
+@font-face {
+    font-family: 'Orbit-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/Orbit-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.weekBox {
+    padding-left: 39px;
+}
+
 .week {
     display: inline-block;
-    width: 102px;
+    width: 45px;
+    text-align: center;
 }
 
 .timeTableWeek {
     display: inline-block;
     vertical-align: top;
-    box-sizing: border-box;
-    width: 100px;
+    border-collapse: collapse;
 }
 
 .timeTableTime {
-    width: 100px;
-    height: 40px;
-    border: 1px solid black;
+    width: 46px;
+    height: 50px;
+    outline: 1px solid #969897;
+    font-size: 9px;
     box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .time {
-    height: 40px;
+    height: 50px;
     text-align: center;
+}
+
+.timeTable {
+    font-size: 9px;
 }
 
 .timeTableContent {
     display: inline-block;
     vertical-align: top;
+    border-collapse: collapse;
+    margin-top: 9px;
+    margin-left: 8px;
+}
+
+body {
+    font-size: 12px;
+    font-family: Orbit-Regular;
 }
