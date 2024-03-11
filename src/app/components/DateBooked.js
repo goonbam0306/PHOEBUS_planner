@@ -18,7 +18,7 @@ function DateBooked() {
 
     const CalanderCustom = forwardRef(({ value, onClick }, ref) => (
         <button 
-            className="CalanderCustom" 
+            className=" btn btn-primary" 
             onClick={onClick} 
             ref={ref}
             style = {{

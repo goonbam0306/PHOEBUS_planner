@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import NewBookingForm from "../components/NewBookingForm";
+import Link from 'next/link';
 
 export default function Booking() {
     async function addBookedHandler(enteredBookData) {
@@ -19,21 +20,26 @@ export default function Booking() {
     }
     return (
         <div>
-            <div style={{display: 'flex'}}>
+             <Link href="/" style={{
+              color: 'black',
+              textDecoration: 'none',
+            }}>
+              <div style={{display: 'flex',}}>
                 <div style={{
-                    fontSize: '32px'
+                  fontSize: '32px'
                 }}>
-                    P
+                  P
                 </div>
                 <div style={{
-                    fontSize: '14px',
-                    paddingTop: '4px',
-                    paddingLeft: '2px'
+                  fontSize: '14px',
+                  paddingTop: '4px',
+                  paddingLeft: '2px'
                 }}>
-                    hoebus<br />
-                    lanner
-                    </div>
-            </div>
+                  hoebus<br />
+                  lanner
+                </div>
+              </div>
+            </Link>
             <NewBookingForm onAddBooking={addBookedHandler} />
         </div>
     );
