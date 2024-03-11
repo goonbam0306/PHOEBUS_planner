@@ -20,10 +20,10 @@ function NewBookingForm(props) {
 
     const weeklyState = useCheckboxState();
 
-    switchElement.addEventListener('click', function() {
-        // 사용자가 switchElement를 클릭할 때 실행할 코드
+    useEffect(() => {
         const switchElement = document.getElementById('flexSwitchCheckDefault');
-    });
+        // 여기에 switchElement를 사용하는 로직을 추가합니다.
+      }, []);
     
 
     const handleDateChange = (date) => {
