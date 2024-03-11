@@ -17,12 +17,14 @@ function NewBookingForm(props) {
     const [month, setMonth] = useState(null);
     const [day, setDay] = useState(null);
     const [dayOfWeek, setDayOfWeek] = useState(null);
+    const [switchElement, setSwitchElement] = useState(null);
 
     const weeklyState = useCheckboxState();
 
     useEffect(() => {
-        const switchElement = document.getElementById('flexSwitchCheckDefault');
-        // 여기에 switchElement를 사용하는 로직을 추가합니다.
+        // DOM에서 switchElement를 찾아 상태로 설정
+        const el = document.getElementById('flexSwitchCheckDefault');
+        setSwitchElement(el);
       }, []);
     
 

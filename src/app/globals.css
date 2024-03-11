@@ -35,7 +35,6 @@
     font-size: 9px;
     box-sizing: border-box;
     overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .time {

@@ -2,6 +2,7 @@
 import React, { forwardRef, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import DatePicker from 'react-datepicker';
+import { startOfWeek, endOfWeek, format } from 'date-fns';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -16,9 +17,15 @@ function DateBooked() {
         setSelectedDate(date);
     };
 
+    const getWeekRange = (date) => {
+        const start = startOfWeek(date, { weekStartsOn: 0 }); // 일요일이 주의 시작으로 설정
+        const end = endOfWeek(date, { weekStartsOn: 0 }); // 토요일이 주의 끝으로 설정
+        return `${format(start, 'yyyy-MM-dd')} ~ ${format(end, 'yyyy-MM-dd')}`;
+      };
+
     const CalanderCustom = forwardRef(({ value, onClick }, ref) => (
         <button 
-            className=" btn btn-primary" 
+            className=" btn btn-secondary" 
             onClick={onClick} 
             ref={ref}
             style = {{
@@ -49,14 +56,22 @@ function DateBooked() {
 
     return (
         <div>
-            <div>
-                <DatePicker 
-                    selected={selectedDate} 
-                    onChange={handleDateChange}
-                    customInput={<CalanderCustom />}
-                />
+            <div className="container-sm mb-3">
+                <div>
+                    <DatePicker 
+                        selected={selectedDate} 
+                        onChange={handleDateChange}
+                        customInput={<CalanderCustom />}
+                    />
+                </div>
+                <div>
+                    예약 확인 날짜 선택
+                </div>
             </div>
             <div className="bookedTable">
+                <div>
+                    {getWeekRange(selectedDate)}
+                </div>
                 <div className="weekBox">
                     {week.map((subWeek, i) => (
                         <div key={i} className="week">

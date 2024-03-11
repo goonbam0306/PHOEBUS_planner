@@ -10,7 +10,7 @@ export default function Home() {
       <div alt="main page">
         <div alt="header" className="container-sm mt-3">
           <div 
-          className="d-flex justify-content-between mb-5"
+          className="d-flex justify-content-between mb-4"
           >
             <Link href="/" style={{
               color: 'black',

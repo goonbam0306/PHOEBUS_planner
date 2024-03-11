@@ -19,7 +19,7 @@ export default function Booking() {
         console.log(data);
     }
     return (
-        <div>
+        <div className="container-sm mt-3">
              <Link href="/" style={{
               color: 'black',
               textDecoration: 'none',
