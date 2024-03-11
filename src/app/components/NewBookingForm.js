@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react';
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
 import DatePicker from 'react-datepicker';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { dayBookedInfo } from '../utils/dayBookedInfo';
 import { bookedComplete } from '../utils/bookedComplete';
 import { Switch, useCheckboxState } from 'pretty-checkbox-react';
